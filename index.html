@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="cssLibi.css" />
+<link rel="stylesheet" href="css/main.css">
+<script src="applib.js"></script>
+<script src="app.js"></script>
+
+</head>
+<body>
+	<div class="container pageWidth">
+		<header>
+			<div class="row heading">
+				<div class="col-md-6">
+					<img class="logo" src="images/Header/Logo.png"
+						alt="Liberty Global" />
+				</div>
+				<div class="col-md-6">
+					<div class="col-md-5 border pad0 fleft">
+						<div class="pad0 fleft">
+							<select class="headerDropdown noBorder">
+								<option value="">Offer</option>
+							</select>
+						</div>
+						<div class="pad0 fleft">
+							<input class="noBorder icon" type="text" placeholder="Search" />
+						</div>
+					</div>
+					<div class="col-md-3"></div>
+					<div class="col-md-4 pad0 fright">
+						<div class="col-md-6 pad0 alignRight">
+							<div>Welcome</div>
+							<div>John Barley</div>
+						</div>
+						<div class="col-md-1 pad0 col-xs-offset-1">
+							<img
+								src="images/Header/Profile_dropdown_arrow.png"
+								alt="img" />
+						</div>
+						<div class="col-md-4 pad0 alignRight">
+							<img class="logo"
+								src="images/Header/Profile_pic.png" alt="img" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div submenus></div>
+			</div>
+		</header>
+		<div class="row pageBreadcrumb">
+			<div class="">
+				<div ncy-breadcrumb></div>
+			</div>
+		</div>
+		<div ui-view></div>
+	</div>
+</body>
+</html>

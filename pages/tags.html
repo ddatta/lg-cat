@@ -1,0 +1,119 @@
+<div class="row m0">
+    <div class="space"></div>
+    <div ng-class="{'col-md-2': hidesearchPanel, 'hidesearchWidth' : !hidesearchPanel}">
+        <div class="row space" ng-click="hidesearchPanel = !hidesearchPanel">
+            <div ng-if="hidesearchPanel"><h2 class="headerFont fleft">Search Tag</h2></div>			
+            <div class="btn btn-default fright" > 
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </div>
+        </div>
+        <div ng-if="hidesearchPanel">
+            <div class="row">
+                <label class="tagFont" for="searchName">Search by Name</label>
+                <input class="commontextbox textFont" type="text" id="searchName" placeholder="Search by name" ng-model="tagName">
+            </div>
+            <div class="smallspace"></div>
+            <div class="row">
+                <label class="tagFont" for="searchId">Search by ID</label>
+                <input class="commontextbox textFont" type="text" id="searchId" placeholder="Search by ID" ng-model="tagId">
+            </div>
+            <div class="smallspace"></div>
+            <div class="row">
+                <div class="col-sm-1"><input type="checkbox" id="active" value="active"></div>
+                <div class="col-sm-2 smallspace">	<label for="active">Active</label></div>
+                <div class="col-sm-9"></div>
+            </div>
+            <div class="bigspace"></div>
+            <div class="row">
+                <div class="col-sm-10 pad0 marginReduction"><p class="tagFont textcolor"><u>Advanced Search</u></p></div>
+                <div class="col-sm-2" ng-show="advanceFlag"><button class="astext textFont textcolor" ng-click="advanceFlag = !advanceFlag"><u>show</u></button></div>
+                <div  class="col-sm-2" ng-show="!advanceFlag"><button class="astext textFont textcolor" ng-click="advanceFlag = !advanceFlag"><u>hide</u></button></div>
+            </div>
+            <div class="space"></div>
+            <div ng-show="!advanceFlag">
+                <div class="row">
+                    <label class="tagFont" for="searchDesc">Search by Description</label>
+                    <input class="commontextbox textFont" type="text" id="searchDesc" placeholder="Search by Description" ng-model="tagdesc">
+                </div>
+                <div class="smallspace"></div>
+                <div class="row marginreduce">
+                    <label class="tagFont" for="fromDate">From Creation Date</label>
+                    <p class="input-group">
+                        <input id="fromDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dfrom" is-open="status.opened"
+                               min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="null" ng-required="" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="smallspace"></div>
+                <div class="row marginreduce">
+                    <label class="tagFont" for="toDate">To Creation Date</label>
+                    <p class="input-group">
+                        <input id="toDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dto" is-open="status.opened1"
+                               min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="null" ng-required="" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="bigspace"></div>
+            <div class="mediumspace fright"><button class="btn textFont button" ng-click="searchTag()">Search</button></div>
+        </div>
+    </div>
+    <div class="sidebar-center" ng-class="{'col-md-10': hidesearchPanel, 'hidesearchWidth1': !hidesearchPanel}">
+        <div>
+            <div ng-controller="TagManagerCtrl as tagManager">
+                <div ng-show="showItemsError">
+                    !Oops.. Something is wrong no items to show...
+                </div>
+                <div class="row navbar">
+                    <div> <h1 class="fleft m0">Tags</h1></div>
+                    <div class="fright buttonPadding">
+                        <button class="button btn-primary textFont btn" ui-sref="catalog.createtag.basic" type="button">Create</button>
+                        <button type="button" ng-click="" class="btn btn_background pad0">
+                            <img src="images/Common/Export_line_icon.png" alt="export" style="">
+                        </button>
+                    </div> 
+                </div>
+                <div class="smallspace"></div>
+                <div class="form-group">
+                    <label>Display Items</label>
+                    <select style=" width: 50px;float: right;" id="pageSizeBinding" class="form-control input-sm" ng-model="demo.tableParams.count" ng-model-options="{ getterSetter: true}" ng-options="size for size in demo.tableParams.settings().counts"></select>
+                </div>
+                <div class="smallspace"></div>
+                <table ng-table="tagManager.tableParams" class="table" show-filter="true">
+                    <tr ng-repeat="user in $data">
+                        <td><input type="checkbox"></td>
+                        <td title="'Object Id'" filter="{ objectId: 'number'}" sortable="'objectId'">
+                            {{user.objectId}}</td>
+                        <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+                            {{user.name}}</td>
+                        <td title="'offer Type'" filter="{ offerType: 'text'}" sortable="'offerType'">
+                            {{user.name}}</td>
+                        <td title="'Sort Order'" filter="{ sortOrder: 'number'}" sortable="'sortOrder'">
+                            {{user.sortOrder}}</td>
+                        <td title="'Priority'" filter="{ priority: 'number'}" sortable="'priority'">
+                            {{user.priority}} 
+                        </td>
+                        <td width="12%">
+                            <button type="button" ng-click="" class="btn pad0 btn_background">
+                                <img src="images/Common/info_icon.png" alt="info" style="">
+                            </button>
+                            <button type="button" ng-click="" class="btn pad0 btn_background">
+                                <img src="images/Common/Edit_icon.png" alt="edit" style="">
+                            </button>
+                            <button type="button" ng-click="remove($index)" class="btn pad0 btn_background">
+                                <img src="images/Common/Data_grid/Close_icon.png" alt="close" style="">
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="space"></div>
+            <div class="fright mediumspace"><a class="btn btn-primary button">Save</a></div>
+            <div class="bigspace"></div>
+        </div>
+    </div>
+</div>

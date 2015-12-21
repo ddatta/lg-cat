@@ -1,0 +1,361 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+$secondaryColor: #ccc;
+$zeroUnits: 0px;
+
+body {
+    font: 100% $font-stack;
+    color: $primary-color;  
+}
+
+h1,h2,h3,h4 { margin: $zeroUnits;}
+
+h1 {
+    color: $secondaryColor;
+}
+
+nav {    
+    background-color: #0d4d8b;	
+    padding-right:10px;
+    padding-left : 10px;	
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li { 
+        display: inline-block;  
+    } 
+
+    a {
+        display: block;
+        padding: 6px 12px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #ffffff;
+        font-family: Open Sans Semibold; 	
+    } 
+}
+
+/****button styles ****/
+
+.button { width: 140px; height: 30px;}
+
+.btn-primary {
+    @extend .btn;
+    background-color: #1f97eb;
+    color: #FFF;
+}
+
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+.box { @include border-radius(10px); }
+
+.message {
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #333;
+}
+
+.success {
+    @extend .message;
+    border-color: green;
+}
+
+.error {
+    @extend .message;
+    border-color: red;
+}
+
+.warning {
+    @extend .message;
+    border-color: yellow;
+}
+
+.navbar{
+    border-radius: 0px;
+    padding-right: 10px;
+    padding-left: 10px;	
+    .toggle{ 
+        background-color:  #ffffff;
+    }
+}
+
+.icon-bar{
+    background-color: #0d4d8b;
+}
+.navbar-nav > li > a:hover{
+    background-color: #05d19a;
+}
+
+.navbar-nav > li > a:focus{
+    background-color: #05d19a;
+}
+
+/* styles override */
+.pageWidth {
+    max-width: 960px;
+    margin: 0 auto;
+}
+.dropdown-menu {
+    background-color: #0d4d8b;
+    li{
+        a{
+            color: #ffffff;
+            &:hover {
+                background-color: #05d19a;
+            }
+            &:focus {
+                background-color: #05d19a;
+            }
+        }
+
+    }
+}
+.collapse{
+    background-color: #0d4d8b;
+}
+
+.pageBreadcrumb{
+    background-image: url("../images/Header/Drop_shadow_bg.png");	 
+    background-color: #eceff3;
+    height: 30px;
+    background-repeat: repeat-x;
+    background-position: left 25px;
+    li{
+        a{
+            font-size: 11px;
+            color: #0280e1;
+        }
+    }
+    &:active {
+        color: #686868;
+    }
+
+    .breadcrumb {
+        margin: $zeroUnits !important;
+        padding: 5px 15px 8px;
+    }
+}
+/*Ashish's css */
+.pad0 {
+    padding: $zeroUnits  !important;
+}
+.m0 {
+    margin: $zeroUnits  !important;
+}
+.noBorder {
+    border: $zeroUnits !important;
+}
+
+select, input {
+    height: 30px;
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+.alignRight {
+    text-align : right;
+}
+
+.alignLeft {
+    text-align : left;
+}
+
+.alpha {
+    margin-left: $zeroUnits !important;
+    padding-left: $zeroUnits !important;
+}
+
+.omega {
+    margin-right: $zeroUnits !important;
+    padding-right: $zeroUnits !important;
+}
+.border {
+    border: 1px solid #ddd;
+}
+
+.space {
+    margin-bottom: 20px;
+}
+
+.smallspace { 
+    margin-bottom: 10px;
+}
+
+.bigspace { 
+    margin-bottom: 30px;
+}
+
+header {	
+    .caret {
+        background-image: url("../images/Header/Navigation/Down_arrow.png");
+        border : $zeroUnits !important;
+        width: 10px;
+        height: 6px;
+        margin-left: 5px;
+    }
+}
+.heading {
+    padding-top: 26px;
+    padding-bottom: 20px;
+    background-image: url("../images/Header/Header_bg.png");
+    background-repeat: no-repeat;
+
+    .logo {
+        height: 40px;
+    }
+
+    .headerDropdown {
+        padding: 2px;
+    }
+    .icon {
+        background: #FFFFFF url("../images/Header/Search/Zoom_icon.png") no-repeat 112px 7px;
+        background-size: 12%;
+    }
+
+    input.icon {
+        width: 137px;
+        text-indent: 71px;
+    }
+}
+
+.labelMargin {
+    padding-right : 0px;
+    margin-left: 15px;
+}
+
+.pad {
+    padding: 10px;
+}
+
+.inputSmallWidth { width: 75px;}
+.inputMediumWidth { width: 150px;}
+.row{		
+
+    .pstyle{
+        text-align: center;
+        background-color: #f2f2f2;
+        height: 40px;
+        padding: 10px 0px 0px 0px;
+        font-family: Open Sans Semibold;
+        font-size: 13px; 
+        color: #03ae80;
+        margin: $zeroUnits !important;
+    }	
+} 
+
+.commonlabel{
+    font-size: 13px;
+    color: #000000;
+    font-family: Open Sans Regular;
+    width: 100px;		
+    margin-right: 10px;
+}
+
+.commontextbox{		
+    height: 30px;
+    stroke: 1px #c2c2c2;
+    font-family: Open Sans Regular;
+    font-size: 13px;
+    color: #333333;
+    padding: 4px 4px 4px 4px;
+}
+.commonselectbox{
+    height: 30px;		
+    font-family: Open Sans Regular;
+    font-size: 12px;
+    color: #333333;		
+}
+
+/*Ashish's search css */
+.astext{
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+}
+
+table{
+    thead{
+        background-color: #efeff0;
+        font: 13px Open Sans Semibold;
+    }
+    td{
+        font: 12px Open Sans Semibold;
+        color: #4f4f4f;
+        margin-left: 10px;
+    }
+}
+
+.headerFont {
+    font-size: 16px;
+}
+.marginReduction{
+    margin-right: -20px;
+}
+.marginreduce{
+    margin-right: 2px;
+}
+.textcolor{
+    color : #1f97eb;
+}
+.tagFont {
+    font-size: 13px;
+}
+.textFont {
+    font-size: 12px;
+}
+
+.buttonPadding{
+    padding-top: 10px;
+}
+
+hidesearchWidth{
+    /*width:60px !important; */
+    width: 6.66666667%;
+    float: left;
+    position: relative;
+    min-height: 500px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.hidesearchWidth1{
+    /*width:60px !important; */
+    width: 93.3333333%;
+    float: right;
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.sidebar-left {
+    border: 1px solid #ddd;
+}
+
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 0px 0 !important;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.btn_background{
+    background-color: #ffffff;
+}
+
+

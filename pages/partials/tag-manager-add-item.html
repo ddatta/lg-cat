@@ -1,0 +1,12 @@
+<div ng-show="showItemsError">
+    !Oops.. Something is wrong no items to show...
+</div>
+<div>
+    <label></label>
+    <input type="text" placeholder="object id">
+    <button ng-click="getItems()">search</button>
+</div>
+<div ng-show="showItemsFlag">
+    <p data-ng-repeat="items in tagItems">Object Id: {{items.objectId}}, Name: {{items.name}}, 
+        Offer Type: {{items.offerType}}, Sort Order: {{items.sortOrder}}, priority: {{items.priority}}</p>
+</div>

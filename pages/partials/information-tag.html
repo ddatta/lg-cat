@@ -1,0 +1,65 @@
+<div>
+    <fieldset>
+        <div class="space"></div>
+        <div class="row m0">		
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <ul class="steps-indicator steps-2">
+                    <li class="current smallspace" ng-class="{default: wizardData.step1.default , current: wizardData.step1.current , done: wizardData.step1.done}">
+                        <a ng-click="goTo(step)"> Tag Information </a>
+                    </li>
+                    <li class="default smallspace" ng-class="{default: wizardData.step2.default, current: wizardData.step2.current, done: wizardData.step2.done}">
+                        <a ng-click="goTo(step)"> Add Enitites</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4"></div>		
+        </div>
+        <div class="bigspace"></div>
+        <div class="pad">	
+            <h2 class="padspace">Tag Information
+                <hr />
+            </h2>
+            <div class="space"></div>	
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">											
+                    <form name="createForm">  
+                        <label for="tagname" class="commonlabel">Tag Name*:	</label>
+                        <input id="tagname" class="commontextbox inputMediumWidth" type="text" name="tagname"  
+                               placeholder="Required Field" data-ng-model="tag.name" required>
+                        </input>									 	
+                        <div class="smallspace">
+                        </div>
+                        <label for="description" class="commonlabel">Description*: </label>
+                        <input id="description"  class="commontextbox inputMediumWidth" type="text" name="description" 
+                               data-ng-model="tag.description" required>
+                        </input>			
+                        <div class="smallspace">
+                        </div>
+                        <label for="type" class="commonlabel">Tag Type*: </label>
+                        <select id="type" data-ng-model="tag.type" class="inputMediumWidth">
+                            <option value="">Offers</option>
+                        </select>	
+                        <div  ng-messages="createForm.tagname.$error" ng-if="createForm.tagname.$dirty" style="color:maroon" role="alert">
+                            <div ng-message="required">You did not enter a field</div>			
+                        </div>
+                        <div ng-messages="createForm.description.$error" style="color:maroon" role="alert">
+                            <div ng-message="required">You did not enter a field</div>			
+                        </div>
+                        <div ng-messages="createForm.type.$error" style="color:maroon" role="alert">
+                            <div ng-message="required">You did not select a field</div>			
+                        </div>
+                    </form>
+                    <div class="space"></div>
+                    <button type="button" ui-sref="catalog.tags" class="btn btn-primary">Back <span class="glyphicon glyphicon-menu-left"></span>		
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="reset()">Reset			
+                    </button>
+                    <button type="button" ui-sref="catalog.createtag.addentity" class="btn btn-primary" ng-click="save(tag)">Next <span class="glyphicon glyphicon-menu-right"></span></button>
+                    <div class="space"></div>				
+                </div>
+            </div>
+        </div>       
+    </fieldset>
+</div>

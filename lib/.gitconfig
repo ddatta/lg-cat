@@ -1,0 +1,5 @@
+[http]
+	proxy = http://username:password@proxy:port
+	sslverify = false
+[url "https://"]
+	insteadOf = git://

@@ -1,0 +1,98 @@
+<div>
+    <fieldset>
+        <div class="space"></div>
+        <div class="row m0">	
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <ul class="steps-indicator steps-2">
+                    <li class="done" ng-class="{default: wizardData.step1.default , current: wizardData.step1.current , done: wizardData.step1.done}">
+                        <a ng-click="goTo(step)"> Create Tag </a>
+                    </li>
+                    <li class="current" ng-class="{default: wizardData.step2.default, current: wizardData.step2.current, done: wizardData.step2.done}">
+                        <a ng-click="goTo(step)"> Add Enitites</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4"></div>	
+        </div>
+        <div class="bigspace"></div>
+        <div class="pad">	
+            <h2 class="padspace">Add Enitities
+                <hr />
+            </h2>
+        </div>
+        <div class="space"></div>
+        <div class="row m0">
+            <p class="pstyle">Currently No Entities Present, Please add Entities</p>
+        </div>
+        <div class="space"></div>
+        <div class="pad">
+            <h3 class="padspace">Search Entities</h3>
+        </div>
+        <div class="space"></div>
+        <div>
+            <div class="row m0">
+                <div class="col-md-2">
+                    <label for="entityType" class="commonlabel">Entity Type: </label>
+                    <div class="smallspace"></div>
+                    <select id="entityType" class="commonselectbox inputMediumWidth">
+                        <option value="">Offers</option>
+                    </select>
+                </div>	
+                <div class="col-md-2">
+                    <label for="name" class="commonlabel">Entity Name: </label>
+                    <div class="smallspace"></div>
+                    <input id="name" type="text" class="commontextbox inputMediumWidth">
+                    </input>
+                </div>	
+                <div class="col-md-2">
+                    <label for="entityId" class="commonlabel">Entity ID: </label>
+                    <div class="smallspace"></div>
+                    <input id="entityId" type="text" class="commontextbox inputMediumWidth">
+                    </input>
+                </div>	
+                <div class="col-md-2">
+                    <button type="button" class="btn pad0 btn-primary" ng-click="addEntitiesRoutine()">Search
+                    </button>	
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="bigspace"></div>
+            <div class="row m0 pad" ng-controller="AddController as addEntities" ng-show="showTableView">
+                <table ng-table="addEntities.tableParams" class="table" show-filter="true">                    
+                    <tr ng-repeat="user in $data">
+                        <td><input type="checkbox"></td>
+                        <td title="'Entity Id'" filter="{ entityId: 'number'}" sortable="'entityId'">
+                            {{user.entityId}}</td>
+                        <td title="'Entity Name'" filter="{ entityName: 'text'}" sortable="'entityName'">
+                            {{user.entityName}}</td>
+                        <td title="'Entity Type'" filter="{ entityType: 'text'}" sortable="'entityType'">
+                            {{user.entityType}}</td>
+                        <td title="'Description'" filter="{ description: 'text'}" sortable="'description'">
+                            {{user.description}}</td>                  
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row m0">
+            <div class="col-md-3"></div>
+            <div class="col-md-1">
+                <button type="button" ui-sref="catalog.createtag.basic" class="btn btn-primary">Back <span class="glyphicon glyphicon-menu-left"></span>
+                </button>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary">Reset
+                </button>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary">Create Tag <span class="glyphicon glyphicon-menu-right"></span>
+                </button>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="bigspace"></div>
+    </fieldset>
+</div>

@@ -1,0 +1,41 @@
+{
+  "name": "myapp",
+  "version": "0.0.1",
+  "authors": [
+    "sangamesh <san015ec@gmail.com>"
+  ],
+  "description": "angular app using nodejs",
+  "main": "index.js",
+  "moduleType": [
+    "globals",
+    "yui"
+  ],
+  "license": "LGI",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "ngstorage": "~0.3.9",
+    "angular-ui-router": "~0.2.15",
+    "angular-sanitize": "~1.4.7",
+    "angular-mocks": "~1.4.7",
+    "ui-navbar": "~0.4.1"
+  },
+  "devDependencies": {
+    "angular-bootstrap": "~0.14.3",
+    "ng-table": "~0.8.3",
+    "angular-ui-bootstrap": "~0.14.3",
+    "bootstrap-bower": "~3.0.0",
+    "angular-breadcrumb": "~0.4.1",
+    "angular-wizard": "~0.5.5",
+    "angular-messages": "~1.4.8"
+  }
+}

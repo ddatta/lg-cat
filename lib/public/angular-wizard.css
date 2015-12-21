@@ -1,0 +1,144 @@
+.steps-indicator {
+  /* ---- steps quantity ---- */
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 20px 0 0 0;
+  height: 30px;
+  list-style: none;
+  /* --- http://www.paulirish.com/2012/box-sizing-border-box-ftw/ ---- */
+}
+.steps-indicator:before {
+  background-color: #e4e4e4;
+  content: '';
+  position: absolute;
+  height: 6px;
+}
+.steps-indicator.steps-2:before {
+  left: calc(113% / 2 / 2);
+  right: calc(113% / 2 / 2);
+}
+.steps-indicator.steps-3:before {
+  left: calc(100% / 3 / 2);
+  right: calc(100% / 3 / 2);
+}
+.steps-indicator.steps-4:before {
+  left: calc(100% / 4 / 2);
+  right: calc(100% / 4 / 2);
+}
+.steps-indicator.steps-5:before {
+  left: calc(100% / 5 / 2);
+  right: calc(100% / 5 / 2);
+}
+.steps-indicator.steps-6:before {
+  left: calc(100% / 6 / 2);
+  right: calc(100% / 6 / 2);
+}
+.steps-indicator.steps-7:before {
+  left: calc(100% / 7 / 2);
+  right: calc(100% / 7 / 2);
+}
+.steps-indicator.steps-8:before {
+  left: calc(100% / 8 / 2);
+  right: calc(100% / 8 / 2);
+}
+.steps-indicator.steps-9:before {
+  left: calc(100% / 9 / 2);
+  right: calc(100% / 9 / 2);
+}
+.steps-indicator.steps-10:before {
+  left: calc(100% / 10 / 2);
+  right: calc(100% / 10 / 2);
+}
+.steps-indicator * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.steps-indicator li {
+  position: relative;
+  float: left;
+  margin: 0;
+  padding: 20px 0px 0px;  
+  text-align: center;
+  line-height: 15px;
+}
+.steps-indicator li a {
+  color: #a3b818;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: 0.25s;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: Open Sans Semibold;
+}
+.steps-indicator li a:before {
+  position: absolute;
+  top: -10px;
+  left: calc(50% - 7px);
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background: url("../../images/Wizard Tab/Non_sel_bg.png") no-repeat;
+  content: '';
+  transition: 0.25s;
+  color: #aaaaaa;
+}
+.steps-indicator li a:hover {
+  color: #4d4d4d;
+}
+.steps-indicator.steps-2 li {
+  width: calc(100% / 2);
+}
+.steps-indicator.steps-3 li {
+  width: calc(100% / 3);
+}
+.steps-indicator.steps-4 li {
+  width: calc(100% / 4);
+}
+.steps-indicator.steps-5 li {
+  width: calc(100% / 5);
+}
+.steps-indicator.steps-6 li {
+  width: calc(100% / 6);
+}
+.steps-indicator.steps-7 li {
+  width: calc(100% / 7);
+}
+.steps-indicator.steps-8 li {
+  width: calc(100% / 8);
+}
+.steps-indicator.steps-9 li {
+  width: calc(100% / 9);
+}
+.steps-indicator.steps-10 li {
+  width: calc(100% / 10);
+}
+.steps-indicator.steps-11 li {
+  width: calc(100% / 11);
+}
+.steps-indicator li.default {
+  pointer-events: none;
+}
+.steps-indicator li.default a:hover {
+  color: #808080;
+}
+.steps-indicator li.current,
+.steps-indicator li.editing {
+  pointer-events: none;
+}
+.steps-indicator li.current a:before {
+  background: url("../../images/Wizard Tab/Edit_sel_bg.png") no-repeat;
+  width: 25px;
+  height: 25px;
+}
+.steps-indicator li.done a:before {
+  background: url("../../images/Wizard Tab/Done_sel_bg.png") no-repeat;
+  width: 25px;
+  height: 25px;
+}
+.steps-indicator li.editing a:before {
+  background-color: #ff0000;
+}

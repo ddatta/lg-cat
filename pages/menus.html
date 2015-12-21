@@ -1,0 +1,51 @@
+<div ng-controller="NavController">
+		  <nav class="navbar" role="navigation">
+		 
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" >
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <!--a class="navbar-brand" ui-sref="home">Brand</a-->
+				</div>
+				<div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+				  <ul class="nav navbar-nav">
+					<li dropdown="">
+					  <a href="#" dropdown-toggle="">
+								DASHBOARD					  
+					  </a>					 
+					</li>
+					<li dropdown="">
+					  <a ui-sref="management" dropdown-toggle="" >
+								Catalog
+					 <span class="caret"></span>
+					  </a>
+					  <tree tree="tree"></tree>
+					</li>
+					<li dropdown="">
+					  <a href="#" dropdown-toggle="">
+								IMPORT WORKBENCH
+					 <span class="caret"></span>
+					  </a>
+					  <tree tree="tree1"></tree>
+					</li>
+					<li dropdown="">
+					  <a href="#" dropdown-toggle="">
+								Publish
+					 <span class="caret"></span>
+					  </a>
+					  <!--<tree tree="tree2"></tree>-->
+					</li>
+					<li dropdown="">
+					  <a href="#" dropdown-toggle="">
+								Setup
+					 <span class="caret"></span>
+					  </a>
+					 <!--<tree tree="tree3"></tree>-->
+					</li>
+				  </ul>          
+				</div>  
+			</nav>
+        </div>

@@ -1,0 +1,8 @@
+<h2>Posts</h2>
+<div data-ng-repeat="data in responseData" class="row">
+	<div class="row">	
+		<div class="col-xs-2"><img class="img-responsive" ng-src="{{data.image}}"/></div>
+		<div class="col-xs-10 text-left">{{data.title}}</div>		
+	</div>
+	<p>{{data.description}}
+</div>
