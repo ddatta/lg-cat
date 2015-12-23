@@ -1,210 +1,4 @@
 'use strict'var myapp = angular.module('myapp', ['ui.router','ui.navbar','ncy-angular-breadcrumb',                                      'mgo-angular-wizard', 'ngMessages', 'ngTable', 'ui.bootstrap']);myapp.config(["$provide", "$stateProvider", "$urlRouterProvider", "webserviceProvider", "storageServiceProvider", function ($provide, $stateProvider, $urlRouterProvider, 		webserviceProvider, storageServiceProvider) {	/*set to true when stub have to be used*/	var useStub = false;	webserviceProvider.setBaseUrl('http://10.217.147.208:7001/');	if (useStub) {		webserviceProvider.setStub('http://10.217.147.208:7001/pcmsgui/stub');	}	$urlRouterProvider.otherwise('/login');	$stateProvider.state('login', {		url: '/login',		templateUrl: 'pages/login.html',		controller: 'LoginCtrlr'	}).state('tags', {		url: '/tags',		templateUrl: 'pages/tags.html',		controller: 'TagManagerCtrl',		ncyBreadcrumb: {			label: 'Tags'		}	}).state('catalog', {		url: '/catalog',		template: '<div ui-view></div>'	}).state('catalog.tags', {		url: '/tags',		templateUrl: 'pages/tags.html',		controller: 'TagManagerCtrl',		ncyBreadcrumb: {			label: 'Tags'		}	}).state('catalog.createtag', {		url: '/tags/create',		templateUrl: 'pages/createtag.html',		controller: 'CreateController',		ncyBreadcrumb: {			label: 'Create Tag'		}	}) .state('catalog.createtag.basic', {		url: '/basic',		templateUrl: 'pages/partials/information-tag.html',		controller: 'CreateController',		ncyBreadcrumb: {			label: 'Basic'		}	}) .state('catalog.createtag.addentity', {		url: '/addentities',		templateUrl: 'pages/partials/add-entities.html',		controller: 'AddController',		ncyBreadcrumb: {			label: 'Add Enitites'		}	});	}]);myapp.run(["apiFactory", "storageService", function (apiFactory, storageService) {	/* app run features goes here */}]);
-'use strict';
-
-(function () {
-
-    /**
-     * Config
-     */
-    var moduleName = 'ngBreadCrumb';
-    var templateUrl = 'pages/breadcrumbtemplate.html';
-
-    /**
-     * Module
-     */
-    var module;
-    try {
-        module = angular.module(moduleName);
-    } catch (err) {
-        // named module does not exist, so create one
-        module = angular.module(moduleName, ['ui.router']);
-    }
-
-    module.directive('uiBreadcrumbs', ["$interpolate", "$state", function ($interpolate, $state) {
-        return {
-            restrict: 'E',
-            templateUrl: function (elem, attrs) {
-                return attrs.templateUrl || templateUrl;
-            },
-            scope: {
-                displaynameProperty: '@',
-                abstractProxyProperty: '@?'
-            },
-            link: function (scope) {
-                scope.breadcrumbs = [];
-				
-				function updateBreadcrumbsArray() {
-                    var workingState;
-                    var displayName;
-                    var breadcrumbs = [];
-                    var currentState = $state.$current;
-
-                    while (currentState && currentState.name !== '') {
-                        workingState = getWorkingState(currentState);
-                        if (workingState) {
-                            displayName = getDisplayName(workingState);
-
-                            if (displayName !== false && !stateAlreadyInBreadcrumbs(workingState, breadcrumbs)) {
-                                breadcrumbs.push({
-                                    displayName: displayName,
-                                    route: workingState.name
-                                });
-                            }
-                        }
-                        currentState = currentState.parent;
-                    }
-                    breadcrumbs.reverse();
-                    scope.breadcrumbs = breadcrumbs;
-                }
-				
-                if ($state.$current.name !== '') {
-                    updateBreadcrumbsArray();
-                }
-                scope.$on('$stateChangeSuccess', function () {
-                    updateBreadcrumbsArray();
-                });
-
-                /**
-                 * Start with the current state and traverse up the path to build the
-                 * array of breadcrumbs that can be used in an ng-repeat in the template.
-                 */
-                
-
-              
-                function getWorkingState(currentState) {
-                    var proxyStateName;
-                    var workingState = currentState;
-                    if (currentState.abstract === true) {
-                        if (typeof scope.abstractProxyProperty !== 'undefined') {
-                            proxyStateName = getObjectValue(scope.abstractProxyProperty, currentState);
-                            if (proxyStateName) {
-                                workingState = $state.get(proxyStateName);
-                            } else {
-                                workingState = false;
-                            }
-                        } else {
-                            workingState = false;
-                        }
-                    }
-                    return workingState;
-                }
-
-               
-                function getDisplayName(currentState) {
-                    var interpolationContext;
-                    var propertyReference;
-                    var displayName;
-
-                    if (!scope.displaynameProperty) {
-                        // if the displayname-property attribute was not specified, default to the state's name
-                        return currentState.name;
-                    }
-                    propertyReference = getObjectValue(scope.displaynameProperty, currentState);
-
-                    if (propertyReference === false) {
-                        return false;
-                    } else if (typeof propertyReference === 'undefined') {
-                        return currentState.name;
-                    } else {
-                        // use the $interpolate service to handle any bindings in the propertyReference string.
-                        interpolationContext = (typeof currentState.locals !== 'undefined') ? 
-						currentState.locals.globals : currentState;
-                        displayName = $interpolate(propertyReference)(interpolationContext);
-                        return displayName;
-                    }
-                }
-
-            
-                function getObjectValue(objectPath, context) {
-                    var i;
-                    var propertyArray = objectPath.split('.');
-                    var propertyReference = context;
-
-                    for (i = 0; i < propertyArray.length; i++) {
-                        if (angular.isDefined(propertyReference[propertyArray[i]])) {
-                            propertyReference = propertyReference[propertyArray[i]];
-                        } else {
-                            // if the specified property was not found, default to the state's name
-                            return undefined;
-                        }
-                    }
-                    return propertyReference;
-                }
-
-              
-                function stateAlreadyInBreadcrumbs(state, breadcrumbs) {
-                    var i;
-                    var alreadyUsed = false;
-                    for (i = 0; i < breadcrumbs.length; i++) {
-                        if (breadcrumbs[i].route === state.name) {
-                            alreadyUsed = true;
-                        }
-                    }
-                    return alreadyUsed;
-                }
-            }
-        };
-    }]);
-})();
-'use strict'
-angular.module('myapp')
-.directive('submenus', function () {
-        return {
-            restrict: 'A',
-            replace: true,
-            controller: 'NavController',
-            templateUrl: 'pages/menus.html',
-			link : function (scope, controller) {
-                scope.message = 'Hello World!';
-            }
-        };
-    });
-'use strict'
-angular.module('ui.navbar', ['ui.bootstrap', 'template/navbar-ul.html', 'template/navbar-li.html'])
-
-    .directive('tree', function () {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                tree: '=',
-				tree1: '='
-            },
-            templateUrl: 'template/navbar-ul.html'
-        };
-    })
-	
-    .directive('leaf', ["$compile", function ($compile) {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                leaf: '='
-            },
-            templateUrl: 'template/navbar-li.html',
-            link: function (scope, element, attrs) {
-                if (angular.isArray(scope.leaf.subtree)) {
-                    element.append('<tree tree=\"leaf.subtree\"></tree>');
-                    var parent = element.parent();
-                    var classFound = false;
-                    while(parent.length > 0 && !classFound) {
-                      if(parent.hasClass('navbar-right')) {
-                        classFound = true;
-                      }
-                      parent = parent.parent();
-                    }
-                    
-                    if(classFound) {
-                      element.addClass('dropdown-submenu-right');
-                    } else {
-                     element.addClass('dropdown-submenu');
-                    }
-                    
-                    $compile(element.contents())(scope);
-                }
-            }
-        };
-    }]);
 'use strict'
 angular.module('myapp').controller('LoginCtrlr', 
 ["$scope", "$http", "apiFactory", "$location", function ($scope,$http,apiFactory,$location) {
@@ -451,22 +245,212 @@ angular.module('myapp').controller('NavController', ["$scope", function($scope){
 		}]
 	  }];
 }]);
-'use strict'
-angular.module('template/navbar-li.html', []).run(['$templateCache', function($templateCache) {
-  $templateCache.put('template/navbar-li.html',
-    '<li ng-class=\'{divider: leaf.name == "divider"}\'>\n' +
-    '    <a ui-sref=\'{{leaf.link}}\' ng-if=\'leaf.name !== "divider"\'>{{leaf.name}}</a>\n' +
-    '</li>');
-}]);
+'use strict';
 
-'use strict'
-angular.module('template/navbar-ul.html', []).run(['$templateCache', function($templateCache) {
-  $templateCache.put('template/navbar-ul.html',
-    '<ul class="dropdown-menu">\n' +
-    '    <leaf ng-repeat="leaf in tree" leaf="leaf"></leaf>\n' +
-    '</ul>');
-}]);
+(function () {
 
+    /**
+     * Config
+     */
+    var moduleName = 'ngBreadCrumb';
+    var templateUrl = 'pages/breadcrumbtemplate.html';
+
+    /**
+     * Module
+     */
+    var module;
+    try {
+        module = angular.module(moduleName);
+    } catch (err) {
+        // named module does not exist, so create one
+        module = angular.module(moduleName, ['ui.router']);
+    }
+
+    module.directive('uiBreadcrumbs', ["$interpolate", "$state", function ($interpolate, $state) {
+        return {
+            restrict: 'E',
+            templateUrl: function (elem, attrs) {
+                return attrs.templateUrl || templateUrl;
+            },
+            scope: {
+                displaynameProperty: '@',
+                abstractProxyProperty: '@?'
+            },
+            link: function (scope) {
+                scope.breadcrumbs = [];
+				
+				function updateBreadcrumbsArray() {
+                    var workingState;
+                    var displayName;
+                    var breadcrumbs = [];
+                    var currentState = $state.$current;
+
+                    while (currentState && currentState.name !== '') {
+                        workingState = getWorkingState(currentState);
+                        if (workingState) {
+                            displayName = getDisplayName(workingState);
+
+                            if (displayName !== false && !stateAlreadyInBreadcrumbs(workingState, breadcrumbs)) {
+                                breadcrumbs.push({
+                                    displayName: displayName,
+                                    route: workingState.name
+                                });
+                            }
+                        }
+                        currentState = currentState.parent;
+                    }
+                    breadcrumbs.reverse();
+                    scope.breadcrumbs = breadcrumbs;
+                }
+				
+                if ($state.$current.name !== '') {
+                    updateBreadcrumbsArray();
+                }
+                scope.$on('$stateChangeSuccess', function () {
+                    updateBreadcrumbsArray();
+                });
+
+                /**
+                 * Start with the current state and traverse up the path to build the
+                 * array of breadcrumbs that can be used in an ng-repeat in the template.
+                 */
+                
+
+              
+                function getWorkingState(currentState) {
+                    var proxyStateName;
+                    var workingState = currentState;
+                    if (currentState.abstract === true) {
+                        if (typeof scope.abstractProxyProperty !== 'undefined') {
+                            proxyStateName = getObjectValue(scope.abstractProxyProperty, currentState);
+                            if (proxyStateName) {
+                                workingState = $state.get(proxyStateName);
+                            } else {
+                                workingState = false;
+                            }
+                        } else {
+                            workingState = false;
+                        }
+                    }
+                    return workingState;
+                }
+
+               
+                function getDisplayName(currentState) {
+                    var interpolationContext;
+                    var propertyReference;
+                    var displayName;
+
+                    if (!scope.displaynameProperty) {
+                        // if the displayname-property attribute was not specified, default to the state's name
+                        return currentState.name;
+                    }
+                    propertyReference = getObjectValue(scope.displaynameProperty, currentState);
+
+                    if (propertyReference === false) {
+                        return false;
+                    } else if (typeof propertyReference === 'undefined') {
+                        return currentState.name;
+                    } else {
+                        // use the $interpolate service to handle any bindings in the propertyReference string.
+                        interpolationContext = (typeof currentState.locals !== 'undefined') ? 
+						currentState.locals.globals : currentState;
+                        displayName = $interpolate(propertyReference)(interpolationContext);
+                        return displayName;
+                    }
+                }
+
+            
+                function getObjectValue(objectPath, context) {
+                    var i;
+                    var propertyArray = objectPath.split('.');
+                    var propertyReference = context;
+
+                    for (i = 0; i < propertyArray.length; i++) {
+                        if (angular.isDefined(propertyReference[propertyArray[i]])) {
+                            propertyReference = propertyReference[propertyArray[i]];
+                        } else {
+                            // if the specified property was not found, default to the state's name
+                            return undefined;
+                        }
+                    }
+                    return propertyReference;
+                }
+
+              
+                function stateAlreadyInBreadcrumbs(state, breadcrumbs) {
+                    var i;
+                    var alreadyUsed = false;
+                    for (i = 0; i < breadcrumbs.length; i++) {
+                        if (breadcrumbs[i].route === state.name) {
+                            alreadyUsed = true;
+                        }
+                    }
+                    return alreadyUsed;
+                }
+            }
+        };
+    }]);
+})();
+'use strict'
+angular.module('myapp')
+.directive('submenus', function () {
+        return {
+            restrict: 'A',
+            replace: true,
+            controller: 'NavController',
+            templateUrl: 'pages/menus.html',
+			link : function (scope, controller) {
+                scope.message = 'Hello World!';
+            }
+        };
+    });
+'use strict'
+angular.module('ui.navbar', ['ui.bootstrap', 'template/navbar-ul.html', 'template/navbar-li.html'])
+
+    .directive('tree', function () {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                tree: '=',
+				tree1: '='
+            },
+            templateUrl: 'template/navbar-ul.html'
+        };
+    })
+	
+    .directive('leaf', ["$compile", function ($compile) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                leaf: '='
+            },
+            templateUrl: 'template/navbar-li.html',
+            link: function (scope, element, attrs) {
+                if (angular.isArray(scope.leaf.subtree)) {
+                    element.append('<tree tree=\"leaf.subtree\"></tree>');
+                    var parent = element.parent();
+                    var classFound = false;
+                    while(parent.length > 0 && !classFound) {
+                      if(parent.hasClass('navbar-right')) {
+                        classFound = true;
+                      }
+                      parent = parent.parent();
+                    }
+                    
+                    if(classFound) {
+                      element.addClass('dropdown-submenu-right');
+                    } else {
+                     element.addClass('dropdown-submenu');
+                    }
+                    
+                    $compile(element.contents())(scope);
+                }
+            }
+        };
+    }]);
 'use strict'
 angular.module('myapp').factory('apiFactory', ["webservice", function (webservice) {
 	var type = 'json';
@@ -597,3 +581,19 @@ angular.module('myapp').provider('webservice', function () {
     }];
 });
 
+
+'use strict'
+angular.module('template/navbar-li.html', []).run(['$templateCache', function($templateCache) {
+  $templateCache.put('template/navbar-li.html',
+    '<li ng-class=\'{divider: leaf.name == "divider"}\'>\n' +
+    '    <a ui-sref=\'{{leaf.link}}\' ng-if=\'leaf.name !== "divider"\'>{{leaf.name}}</a>\n' +
+    '</li>');
+}]);
+
+'use strict'
+angular.module('template/navbar-ul.html', []).run(['$templateCache', function($templateCache) {
+  $templateCache.put('template/navbar-ul.html',
+    '<ul class="dropdown-menu">\n' +
+    '    <leaf ng-repeat="leaf in tree" leaf="leaf"></leaf>\n' +
+    '</ul>');
+}]);
